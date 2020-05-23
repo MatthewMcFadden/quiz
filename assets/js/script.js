@@ -67,10 +67,10 @@ let questions = [
   },
   {
     question: "What is the correct way to write a JavaScript array?",
-    choice1: "var colors = (1:'red', 2:'green', 3:'blue')",
-    choice2: "var colors = 'red', 'green', 'blue'",
-    choice3: "var colors = ['red', 'green', 'blue']",
-    choice4: "var colors = 1 = ('red'), 2 = ('green'), 3 = ('blue')",
+    choice1: 'var colors = (1:"red", 2:"green", 3:"blue")',
+    choice2: 'var colors = "red", "green", "blue"',
+    choice3: 'var colors = ["red", "green", "blue"]',
+    choice4: 'var colors = 1 = ("red"), 2 = ("green"), 3 = ("blue")',
     answer: 3
   }
 ];
@@ -89,7 +89,6 @@ startGame = () => {
   availableQuesions = [...questions];
   getNewQuestion(); // performs the "getNewQuestion function below"
   setTimeout(function(){ timer.value = "60 seconds" }, 60000);
-  console.log(setTimeout);
 };
 
 getNewQuestion = () => {
@@ -123,7 +122,6 @@ choices.forEach(choice => {
     acceptingAnswers = false;
     const selectedChoice = e.target;
     const selectedAnswer = selectedChoice.dataset["number"];
-    console.log(selectedAnswer);
     getNewQuestion();
   });
 });
