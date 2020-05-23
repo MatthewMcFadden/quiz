@@ -81,7 +81,7 @@ let questions = [
 
 
 const CORRECT_BONUS = 10; // get 10 points for getting an answer correct
-const MAX_QUESTIONS = 8;
+const MAX_QUESTIONS = 8; // used to help display question progress
 
 startQuiz = () => {
   // starts question number at 0
