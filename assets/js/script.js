@@ -1,131 +1,104 @@
-var quizContainer = document.getElementById('quiz');
-var resultsContainer = document.getElementById('results');
-var submitButton = document.getElementById('submit');
+const question = document.getElementById("question");
+const choices = Array.from(document.getElementsByClassName("choice-text"));
+
+let currentQuestion = {};
+let acceptingAnswers = false;
+let score = 0;
+let questionCounter = 0;
+let availableQuesions = [];
 
 // my quiz question bank
-var myQuestions = [
+let questions = [
   {
-    question: "Inside which HTML element do we put the JavaScript?",
-    answers: {
-      1.: "<javascript>",
-      2.: "<scripting>",
-      3.: "<js>",
-      4.: "<script>"
-    },
-    correctAnswer: "4."
+    question: "Inside which HTML element do we put the JavaScript??",
+    choice1: "<script>",
+    choice2: "<javascript>",
+    choice3: "<js>",
+    choice4: "<scripting>",
+    answer: 1
   },
   {
     question: "Where is the correct place to insert JavaScript into HTML?",
-    answers: {
-      1.: "The <body> section",
-      2.: "The <head> section",
-      3.: "Both the <head section and the <body> section"
-    },
-    correctAnswer: "3."
+    choice1: "The <body> section",
+    choice2: "The <head> section",
+    choice3: "Both the <head section and the <body> section",
+    answer: 3
   },
   {
-    question: "What is the correct syntax for referring to an external script?",
-    answers: {
-      1.: '<script href="xxx.js">',
-      2.: '<script src="xxx.js">',
-      3.: '<script name="xxx.js">'
-    },
-    correctAnswer: "2."
+    question: "What is the correct syntax for referring to an external script called 'xxx.js'?",
+    choice1: "<script href='xxx.js'>",
+    choice2: "<script name='xxx.js'>",
+    choice3: "<script src='xxx.js'>",
+    choice4: "<script file='xxx.js'>",
+    answer: 3
+  },
+  {
+    question: "How do you write 'Hello World' in an alert box?",
+    choice1: "msgBox('Hello World');",
+    choice2: "alertBox('Hello World');",
+    choice3: "msg('Hello World');",
+    choice4: "alert('Hello World');",
+    answer: 4
   },
   {
     question: "How do you create a function in JavaScript?",
-    answers: {
-      1.: "function myFunction()",
-      2.: "function:myFunction()",
-      3.: "function = myFunction()"
-    },
-    correctAnswer: "1."
+    choice1: "function myFunction()",
+    choice2: "function:myFunction()",
+    choice3: "function = myFunction()",
+    answer: 1
   },
   {
     question: "How do you write an IF statement in JavaScript?",
-    answers: {
-      1.: "if i = 5",
-      2.: "if i==5 then",
-      3.: "if (i==5)",
-      4.: "if (i===5)"
-    },
-    correctAnswer: "3."
+    choice1: "if i = 5",
+    choice2: "if i==5 then",
+    choice3: "if (i==5)",
+    choice4: "if (i===5)",
+    answer: 3
   }
 ];
 
+//CONSTANTS
+const CORRECT_BONUS = 10;
+const MAX_QUESTIONS = 3;
 
-function buildQuiz(){
-  // variable to store the HTML output
-  var output = [];
+startGame = () => {
+  questionCounter = 0;
+  score = 0;
+  availableQuesions = [...questions];
+  console.log(availableQuesions);
+  getNewQuestion();
+};
 
-  // for each question...
-  myQuestions.forEach(
-    (currentQuestion, questionNumber) => {
+getNewQuestion = () => {
+  if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+    //go to the end page
+    return window.location.assign("/end.html");
+  }
+  questionCounter++;
+  const questionIndex = Math.floor(Math.random() * availableQuesions.length);
+  currentQuestion = availableQuesions[questionIndex];
+  question.innerText = currentQuestion.question;
 
-      // variable to store the list of possible answers
-      var answers = [];
-
-      // and for each available answer...
-      for(letter in currentQuestion.answers){
-
-        // ...add an HTML radio button
-        answers.push(
-          `<label>
-            <input type="radio" name="question${questionNumber}" value="${letter}">
-            ${letter} :
-            ${currentQuestion.answers[letter]}
-          </label>`
-        );
-      }
-
-      // add this question and its answers to the output
-      output.push(
-        `<div class="question"> ${currentQuestion.question} </div>
-        <div class="answers"> ${answers.join('')} </div>`
-      );
-    }
-  );
-
-  // finally combine our output list into one string of HTML and put it on the page
-  quizContainer.innerHTML = output.join('');
-}
-
-
-function showResults(){
-
-  // gather answer containers from our quiz
-  var answerContainers = quizContainer.querySelectorAll('.answers');
-
-  // keep track of user's answers
-  let numCorrect = 0;
-
-  // for each question...
-  myQuestions.forEach( (currentQuestion, questionNumber) => {
-
-    // find selected answer
-    var answerContainer = answerContainers[questionNumber];
-    var selector = `input[name=question${questionNumber}]:checked`;
-    var userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-    // if answer is correct
-    if(userAnswer === currentQuestion.correctAnswer){
-      // add to the number of correct answers
-      numCorrect++;
-
-      // color the answers green
-      answerContainers[questionNumber].style.color = 'lightgreen';
-    }
-    // if answer is wrong or blank
-    else{
-      // color the answers red
-      answerContainers[questionNumber].style.color = 'red';
-    }
+  choices.forEach(choice => {
+    const number = choice.dataset["number"];
+    choice.innerText = currentQuestion["choice" + number];
   });
 
-  // show number of correct answers out of total
-  resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
-}
+  availableQuesions.splice(questionIndex, 1);
+  console.log(availableQuesions);
+  acceptingAnswers = true;
+};
 
-buildQuiz();
+choices.forEach(choice => {
+  choice.addEventListener("click", e => {
+    if (!acceptingAnswers) return;
 
-submitButton.addEventListener('click', showResults);
+    acceptingAnswers = false;
+    const selectedChoice = e.target;
+    const selectedAnswer = selectedChoice.dataset["number"];
+    console.log(selectedAnswer);
+    getNewQuestion();
+  });
+});
+
+startGame();
