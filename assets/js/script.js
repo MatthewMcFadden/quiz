@@ -1,5 +1,8 @@
 const question = document.getElementById("question");
 const choices = Array.from(document.getElementsByClassName("choice-text"));
+const questionCounterText = document.getElementById("questionCounter");
+const scoreText = document.getElementById("score");
+const timerText = document.getElementById("timer");
 
 let currentQuestion = {};
 let acceptingAnswers = false;
@@ -50,7 +53,7 @@ let questions = [
     answer: 3
   },
   {
-    question: "How to write an IF statement for executing some code if 'i' is NOT equal to 5?",
+    question: 'How to write an IF statement for executing some code if "i" is NOT equal to 5?',
     choice1: "if (i != 5)",
     choice2: "if (i <> 5)",
     choice3: "if i <> 5",
@@ -74,13 +77,13 @@ let questions = [
     answer: 3
   }
 ];
-// Questions referenced from W3Schools JavaScript Quiz
+// Questions referenced from W3Schools JavaScript quiz
 
 
 const CORRECT_BONUS = 10; // get 10 points for getting an answer correct
 const MAX_QUESTIONS = 8;
 
-startGame = () => {
+startQuiz = () => {
   // starts question number at 0
   questionCounter = 0;
   // starts score at 0
@@ -100,6 +103,9 @@ getNewQuestion = () => {
   
   // increase the question counter by 1
   questionCounter++;
+  //question counter display
+  questionCounterText.innerText = questionCounter + "/" + MAX_QUESTIONS;
+
   // randomly pick a question from the array
   const questionIndex = Math.floor(Math.random() * availableQuesions.length);
   currentQuestion = availableQuesions[questionIndex];
@@ -128,22 +134,27 @@ choices.forEach(choice => {
       // assigns the values of correct or incorrect
       selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
 
-      // applies the correct or incorrect class
-      selectedChoice.parentElement.classList.add(classToApply);
+    // if answer is correct add 10 to the score
+    if(classToApply === 'correct') {
+      incrementScore(CORRECT_BONUS);
+    }
 
-      // removes the correct/incorrect class when moving on to the next question
-      setTimeout(() => {
-        selectedChoice.parentElement.classList.remove(classToApply);
-        getNewQuestion();
-      }, 1000);
-    });
+    // applies the correct or incorrect class
+    selectedChoice.parentElement.classList.add(classToApply);
+
+    // removes the correct/incorrect class when moving on to the next question
+    setTimeout(() => {
+      selectedChoice.parentElement.classList.remove(classToApply);
+      getNewQuestion();
+    }, 1000); // removes after 1 second
   });
+});
 
 
-// increases score by 1 for each correct answer
+// increases score by  for each correct answer
 incrementScore = num => {
   score += num;
   scoreText.innerText = score;
 };
 
-startGame();
+startQuiz();

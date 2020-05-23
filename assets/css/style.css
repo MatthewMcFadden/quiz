@@ -93,8 +93,8 @@ h3 {
   border: 0.1rem solid #9245b9;
   margin-bottom: 1rem;
   text-decoration: none;
-  color: #9245b9;
-  background-color: white;
+  color: white;
+  background-color: #9245b9;
 }
 
 .btn:hover {
