@@ -1,14 +1,13 @@
 const question = document.getElementById("question");
 const choices = Array.from(document.getElementsByClassName("choice-text"));
-const progressText = document.getElementById("progressText");
-const scoreText = document.getElementById("score");
-const progressBarFull = document.getElementById("progressBarFull");
+
 let currentQuestion = {};
 let acceptingAnswers = false;
 let score = 0;
 let questionCounter = 0;
 let availableQuesions = [];
 
+// quiz bank in an array
 let questions = [
   {
     question: "Inside which HTML element do we put the JavaScript??",
@@ -74,34 +73,40 @@ let questions = [
     choice4: "var colors = 1 = ('red'), 2 = ('green'), 3 = ('blue')",
     answer: 3
   }
-]; // Questions referenced from W3Schools JavaScript Quiz
+];
+// Questions referenced from W3Schools JavaScript Quiz
 
-//CONSTANTS
-const CORRECT_BONUS = 10;
-const MAX_QUESTIONS = 3;
+
+const CORRECT_BONUS = 10; // get 10 points for getting an answer correct
+const MAX_QUESTIONS = 8;
 
 startGame = () => {
+  // starts question number at 0
   questionCounter = 0;
+  // starts score at 0
   score = 0;
+  // choses a question from the array above and puts it into this new array
   availableQuesions = [...questions];
-  getNewQuestion();
+  getNewQuestion(); // performs the "getNewQuestion function below"
+  setTimeout(function(){ timer.value = "60 seconds" }, 60000);
+  console.log(setTimeout);
 };
 
 getNewQuestion = () => {
   if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
     localStorage.setItem("mostRecentScore", score);
     //go to the end page
-    return window.location.assign("/end.html");
+    return window.location.assign("./end.html");
   }
+  
+  // increase the question counter by 1
   questionCounter++;
-  progressText.innerText = `Question ${questionCounter}/${MAX_QUESTIONS}`;
-  //Update the progress bar
-  progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
-
+  // randomly pick a question from the array
   const questionIndex = Math.floor(Math.random() * availableQuesions.length);
   currentQuestion = availableQuesions[questionIndex];
   question.innerText = currentQuestion.question;
 
+  // orders the choices in a question
   choices.forEach(choice => {
     const number = choice.dataset["number"];
     choice.innerText = currentQuestion["choice" + number];
@@ -118,23 +123,13 @@ choices.forEach(choice => {
     acceptingAnswers = false;
     const selectedChoice = e.target;
     const selectedAnswer = selectedChoice.dataset["number"];
-
-    const classToApply =
-      selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
-
-    if (classToApply === "correct") {
-      incrementScore(CORRECT_BONUS);
-    }
-
-    selectedChoice.parentElement.classList.add(classToApply);
-
-    setTimeout(() => {
-      selectedChoice.parentElement.classList.remove(classToApply);
-      getNewQuestion();
-    }, 1000);
+    console.log(selectedAnswer);
+    getNewQuestion();
   });
 });
 
+
+// increases score by 1 for each correct answer
 incrementScore = num => {
   score += num;
   scoreText.innerText = score;

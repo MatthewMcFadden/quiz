@@ -1,5 +1,5 @@
 :root {
-  background-color: #ecf5ff;
+  background-color: #ffffff;
   font-size: 62.5%;
 }
 
@@ -17,7 +17,7 @@ h1 h2 h3 h4 {
 
 h1 {
   font-size: 5.4rem;
-  color: #56a5eb;
+  color: #9245b9;
   margin-bottom: 5rem;
 }
 
@@ -35,6 +35,13 @@ h2 {
 h3 {
   font-size: 2.8rem;
   font-weight: 500;
+  margin-bottom: 4rem;
+}
+
+p {
+  font-size: 2.4rem;
+  text-indent: 40px;
+  margin-bottom: 2rem;
 }
 
 /* UTILITIES */
@@ -82,10 +89,10 @@ h3 {
   padding: 1rem 0;
   width: 20rem;
   text-align: center;
-  border: 0.1rem solid #56a5eb;
+  border: 0.1rem solid #9245b9;
   margin-bottom: 1rem;
   text-decoration: none;
-  color: #56a5eb;
+  color: #9245b9;
   background-color: white;
 }
 
@@ -121,49 +128,4 @@ input {
 
 input::placeholder {
   color: #aaa;
-}
-
-
-/* QUIZ STYLES */
-.choice-container {
-  display: flex;
-  margin-bottom: 0.5rem;
-  width: 100%;
-  font-size: 1.8rem;
-  border: 0.1rem solid rgb(86, 165, 235, 0.25);
-  background-color: white;
-}
-
-.choice-container:hover {
-  cursor: pointer;
-  box-shadow: 0 0.4rem 1.4rem 0 rgba(86, 185, 235, 0.5);
-  transform: translateY(-0.1rem);
-  transition: transform 150ms;
-}
-
-.choice-prefix {
-  padding: 1.5rem 2.5rem;
-  background-color: #56a5eb;
-  color: white;
-}
-
-.choice-text {
-  padding: 1.5rem;
-}
-
-
-/* STYLE HIGHSCORES */
-#highScoresList {
-  list-style: none;
-  padding-left: 0;
-  margin-bottom: 4rem;
-}
-
-.high-score {
-  font-size: 2.8rem;
-  margin-bottom: 0.5rem;
-}
-
-.high-score:hover {
-  transform: scale(1.025);
 }
