@@ -122,9 +122,22 @@ choices.forEach(choice => {
     acceptingAnswers = false;
     const selectedChoice = e.target;
     const selectedAnswer = selectedChoice.dataset["number"];
-    getNewQuestion();
+
+    // apply feedback on whether the answer was correct or incorrect
+    const classToApply =
+      // assigns the values of correct or incorrect
+      selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+
+      // applies the correct or incorrect class
+      selectedChoice.parentElement.classList.add(classToApply);
+
+      // removes the correct/incorrect class when moving on to the next question
+      setTimeout(() => {
+        selectedChoice.parentElement.classList.remove(classToApply);
+        getNewQuestion();
+      }, 1000);
+    });
   });
-});
 
 
 // increases score by 1 for each correct answer
