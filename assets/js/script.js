@@ -110,7 +110,7 @@ startQuiz = () => {
   // choses a question from the array above and puts it into this new array
   availableQuesions = [...questions];
 
-  window.onload = function () {
+  //window.onload = function () {
     // initialize 2 minute time
     var oneMinute = 60,
       // displays timer
@@ -120,7 +120,7 @@ startQuiz = () => {
     setTimeout(function(){
       window.location.href = './end.html';
     }, 121000);
-  };
+  //};
 
   getNewQuestion(); // performs the "getNewQuestion function below"
 };
@@ -156,6 +156,7 @@ choices.forEach(choice => {
   choice.addEventListener("click", e => {
     if (!acceptingAnswers) return;
 
+    
     acceptingAnswers = false;
     const selectedChoice = e.target;
     const selectedAnswer = selectedChoice.dataset["number"];
@@ -170,6 +171,10 @@ choices.forEach(choice => {
       incrementScore(CORRECT_BONUS);
     }
 
+    if(classToApply === 'incorrect') {
+      
+    }
+
     // applies the correct or incorrect class
     selectedChoice.parentElement.classList.add(classToApply);
 
@@ -182,7 +187,7 @@ choices.forEach(choice => {
 });
 
 
-// increases score by  for each correct answer
+// increases score for each correct answer
 incrementScore = num => {
   score += num;
   scoreText.innerText = score;
