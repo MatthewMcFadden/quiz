@@ -83,6 +83,25 @@ let questions = [
 const CORRECT_BONUS = 10; // get 10 points for getting an answer correct
 const MAX_QUESTIONS = 8; // used to help display question progress
 
+
+// Timer format and function
+function startTimer(duration, display) {
+  var timer = duration, minutes, seconds;
+  setInterval(function () {
+    minutes = parseInt(timer / 60, 10)
+    seconds = parseInt(timer % 60, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    display.textContent = minutes + ":" + seconds;
+
+    if (--timer < 0) {
+      timer = duration;
+    }
+  }, 1000);
+}
+
 startQuiz = () => {
   // starts question number at 0
   questionCounter = 0;
@@ -90,8 +109,20 @@ startQuiz = () => {
   score = 0;
   // choses a question from the array above and puts it into this new array
   availableQuesions = [...questions];
+
+  window.onload = function () {
+    // initialize 2 minute time
+    var oneMinute = 60,
+      // displays timer
+      display = document.querySelector('#timer');
+    startTimer(oneMinute, display);
+    // redirects to end page once time is up
+    setTimeout(function(){
+      window.location.href = './end.html';
+    }, 121000);
+  };
+
   getNewQuestion(); // performs the "getNewQuestion function below"
-  setTimeout(function(){ timer.value = "60 seconds" }, 60000);
 };
 
 getNewQuestion = () => {
